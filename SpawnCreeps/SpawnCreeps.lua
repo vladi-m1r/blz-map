@@ -11,15 +11,12 @@ end
 
 function Spawn()
     for i = 1, #regions do
-        if CountUnitsInGroup(
-            GetUnitsInRectMatching(
-                regions[i].place,
-                Condition(function ()
-                    return IsUnitAliveBJ(GetFilterUnit())
-                end)
-            )
-        ) == 0 then
+        local tmp_group = GetUnitsInRectMatching(regions[i].place, Condition(function ()
+            return IsUnitAliveBJ(GetFilterUnit())
+        end))
+        if CountUnitsInGroup(tmp_group) == 0 then
             SpawnCreeps(regions[i].place, regions[i].tier)
         end
+        DestroyGroup(tmp_group)
     end
 end
